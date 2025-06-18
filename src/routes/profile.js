@@ -17,14 +17,21 @@ profileRouter.get("/profile/view", userAuth, async (req, res) => {
 
 profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
   try {
-    if (!validateEditProfileData) {
+    if (!validateEditProfileData(req)) {
       throw new Error("Invalid edit request!");
     }
 
     const loggedInUser = req.user;
-    Object.keys(req.body).forEach((key) => (loggedInUser[key] = req.body[key]));
+        Object.keys(req.body).forEach((key) => {
+      // Optional: if age is being sent as string, convert to number here
+      if (key === "age") {
+        loggedInUser[key] = Number(req.body[key]);
+      } else {
+        loggedInUser[key] = req.body[key];
+      }
+    });
 
-    loggedInUser.save();
+    await loggedInUser.save();
 
     res.json({
       message: `${loggedInUser.firstName}, your profile updated successfully.`,
@@ -52,7 +59,7 @@ profileRouter.patch("/profile/changepassword", userAuth, async (req, res) => {
     } else {
       const hashednewPassword = await bcrypt.hash(newPassword, 10);
       user.password = hashednewPassword;
-      req.user.save();
+      await req.user.save();
       res.send("password changed");
     }
   } catch (err) {
