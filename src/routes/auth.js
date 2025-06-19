@@ -8,6 +8,10 @@ authRouter.post("/signup", async (req, res) => {
   // dynamic to recieve data from end user (here postman)
 
   try {
+        const userCount = await User.countDocuments();
+    if (userCount >= 500) {
+      return res.status(403).json({ message: "Signup limit reached. No more registrations allowed." });
+    }
     // validate signup data
     validateSignUpData(req);
     // encryption of password
@@ -20,8 +24,12 @@ authRouter.post("/signup", async (req, res) => {
       password: hashedPassword,
     });
 
-    await user.save();
-    res.send("User added successfully.");
+    const savedUser = await user.save();
+    const token = await savedUser.getJWT();
+ 
+    res.cookie("token",token,{maxAge:3600000*24*7})
+
+    res.json({message:"user added successfully!",data:savedUser});
   } catch (err) {
     res.status(400).send("ERROR: " + err.message);
   }
