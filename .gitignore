@@ -45,9 +45,7 @@ yarn.lock
 pnpm-lock.yaml
 
 # Other sensitive files
-config.js
-database.js
-db.js
+
 
 # Public uploads (if needed)
 uploads/
