@@ -2,25 +2,34 @@ const express = require("express");
 const app = express();
 require("./config/database");
 const connectDB = require("./config/database");
-const cookieparser = require("cookie-parser")
+const cookieparser = require("cookie-parser");
+const cors = require("cors");
 
-const authRouter = require("./routes/auth")
-const profileRouter = require("./routes/profile")
+// Routers
+const authRouter = require("./routes/auth");
+const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
-const cors = require("cors");
-// below should work for all the routes automatically.
+
+// CORS setup
 app.use(cors({
-  origin:"http://localhost:5173",
-  credentials:true, 
-}))
+  origin: "http://localhost:5173",
+  credentials: true,
+}));
+
 app.use(express.json());
 app.use(cookieparser());
 
-app.use("/",authRouter)
-app.use("/",profileRouter)
-app.use("/",requestRouter)
-app.use("/",userRouter)
+// Mount all routers at /api
+app.use("/api", authRouter);
+app.use("/api", profileRouter);
+app.use("/api", requestRouter);
+app.use("/api", userRouter);
+
+// Optional: simple health check route
+app.get("/api", (req, res) => {
+  res.send("API is up and running!");
+});
 
 connectDB()
   .then(() => {
