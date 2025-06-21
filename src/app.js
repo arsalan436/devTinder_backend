@@ -4,6 +4,9 @@ require("./config/database");
 const connectDB = require("./config/database");
 const cookieparser = require("cookie-parser");
 const cors = require("cors");
+// ses things
+
+
 
 // Routers
 const authRouter = require("./routes/auth");

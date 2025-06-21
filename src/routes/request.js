@@ -3,6 +3,8 @@ const requestRouter = express.Router();
 const{userAuth} = require("../middlewares/UserAuth")
 const ConnectionRequest = require("../models/connectionRequest");
 const User = require("../models/user")
+const ses = require("../utils/ses");
+
 
 
 requestRouter.post("/request/send/:status/:toUserId" ,userAuth,async (req,res)=>{
@@ -47,6 +49,29 @@ requestRouter.post("/request/send/:status/:toUserId" ,userAuth,async (req,res)=>
     })
 
     const data = await connectionRequest.save();
+
+
+    // ses 
+
+    if (status === "interested") {
+  const params = {
+    Destination: {
+      ToAddresses: ["mdarsalan81007@gmail.com"],  // <-- your hardcoded receiver email
+    },
+    Message: {
+      Body: {
+        Text: {
+          Data: `Hi, someone is interested in connecting with you on DevTinder!`,
+        },
+      },
+      Subject: { Data: "New Interest on DevTinder!" },
+    },
+    Source: "arsalansiddiquie007@gmail.com",  // Must be verified in SES sandbox
+  };
+
+  await ses.sendEmail(params).promise();
+}
+
 
     res.json({
         message:status+" request sent successfully",
