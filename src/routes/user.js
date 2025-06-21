@@ -14,7 +14,7 @@ const USER_SAFE_DATA = [
   "about",
 ];
 
-userRouter.get("/user/request/recieved", userAuth, async (req, res) => {
+userRouter.get("/api/user/request/recieved", userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
 
@@ -32,7 +32,7 @@ userRouter.get("/user/request/recieved", userAuth, async (req, res) => {
   }
 });
 
-userRouter.get("/user/connections", userAuth, async (req, res) => {
+userRouter.get("/api/user/connections", userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
 
@@ -60,7 +60,7 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
   }
 });
 
-userRouter.get("/user/feed", userAuth, async (req, res) => {
+userRouter.get("/api/user/feed", userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
 
