@@ -8,7 +8,7 @@ const sesClient = require("../utils/ses");
 
 
 
-requestRouter.post("/request/send/:status/:toUserId" ,userAuth,async (req,res)=>{
+requestRouter.post("/api/request/send/:status/:toUserId" ,userAuth,async (req,res)=>{
 
   try{
     const fromUserId = req.user._id;

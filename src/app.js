@@ -8,7 +8,6 @@ const cors = require("cors");
 
 
 
-
 // Routers
 const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
@@ -25,13 +24,13 @@ app.use(express.json());
 app.use(cookieparser());
 
 // Mount all routers at /api
-app.use("/", authRouter);
-app.use("/", profileRouter);
-app.use("/", requestRouter);
-app.use("/", userRouter);
+app.use("/api", authRouter);
+app.use("/api", profileRouter);
+app.use("/api", requestRouter);
+app.use("/api", userRouter);
 
 // Optional: simple health check route
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
   res.send("API is up and running!");
 });
 
