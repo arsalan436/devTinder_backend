@@ -4,8 +4,6 @@ const{userAuth} = require("../middlewares/UserAuth")
 const ConnectionRequest = require("../models/connectionRequest");
 const User = require("../models/user")
 const { SendEmailCommand } = require("@aws-sdk/client-ses");
-const bodyParser = require("body-parser");
-const cors = require("cors");
 const sesClient = require("../utils/ses");
 
 
@@ -57,7 +55,7 @@ requestRouter.post("/request/send/:status/:toUserId" ,userAuth,async (req,res)=>
     // ses 
 
 
-if (status === "interested") {
+
   const params = {
     Destination: {
       ToAddresses: ["mdarsalan81007@gmail.com"],
@@ -84,7 +82,7 @@ try {
 } catch (error) {
   console.error("Error sending email: ", error);
 }
-}
+
 
 
     res.json({
