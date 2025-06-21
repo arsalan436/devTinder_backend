@@ -3,7 +3,16 @@ const requestRouter = express.Router();
 const{userAuth} = require("../middlewares/UserAuth")
 const ConnectionRequest = require("../models/connectionRequest");
 const User = require("../models/user")
-const ses = require("../utils/ses");
+const { SendEmailCommand } = require("@aws-sdk/client-ses");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const sesClient = require("../utils/ses");
+
+const app = express();
+const PORT = 3000;
+
+app.use(cors());
+app.use(bodyParser.json());
 
 
 
@@ -53,10 +62,11 @@ requestRouter.post("/request/send/:status/:toUserId" ,userAuth,async (req,res)=>
 
     // ses 
 
-    if (status === "interested") {
+
+if (status === "interested") {
   const params = {
     Destination: {
-      ToAddresses: ["mdarsalan81007@gmail.com"],  // <-- your hardcoded receiver email
+      ToAddresses: ["mdarsalan81007@gmail.com"],
     },
     Message: {
       Body: {
@@ -66,10 +76,11 @@ requestRouter.post("/request/send/:status/:toUserId" ,userAuth,async (req,res)=>
       },
       Subject: { Data: "New Interest on DevTinder!" },
     },
-    Source: "arsalansiddiquie007@gmail.com",  // Must be verified in SES sandbox
+    Source: "arsalansiddiquie007@gmail.com",
   };
 
-  await ses.sendEmail(params).promise();
+  const command = new SendEmailCommand(params);
+  await sesClient.send(command);
 }
 
 
