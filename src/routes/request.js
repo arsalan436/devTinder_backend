@@ -79,6 +79,10 @@ if (status === "interested") {
     Source: "arsalansiddiquie007@gmail.com",
   };
 
+
+  console.log("About to send email via SES");
+console.log("Params:", params);
+
   const command = new SendEmailCommand(params);
   await sesClient.send(command);
 }
