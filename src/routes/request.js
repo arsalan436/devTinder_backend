@@ -83,8 +83,13 @@ if (status === "interested") {
   console.log("About to send email via SES");
 console.log("Params:", params);
 
+try {
   const command = new SendEmailCommand(params);
-  await sesClient.send(command);
+  const response = await sesClient.send(command);
+  console.log("Email sent successfully", response);
+} catch (error) {
+  console.error("Error sending email: ", error);
+}
 }
 
 
