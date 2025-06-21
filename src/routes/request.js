@@ -55,8 +55,8 @@ requestRouter.post("/api/request/send/:status/:toUserId" ,userAuth,async (req,re
     // ses 
 
 
-
-  const params = {
+if(status === "interested"){
+      const params = {
     Destination: {
       ToAddresses: ["mdarsalan81007@gmail.com"],
     },
@@ -70,6 +70,8 @@ requestRouter.post("/api/request/send/:status/:toUserId" ,userAuth,async (req,re
     },
     Source: "arsalansiddiquie007@gmail.com",
   };
+}
+
 
 
   console.log("About to send email via SES");
