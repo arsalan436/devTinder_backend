@@ -24,13 +24,13 @@ app.use(express.json());
 app.use(cookieparser());
 
 // Mount all routers at /api
-app.use("/api", authRouter);
-app.use("/api", profileRouter);
-app.use("/api", requestRouter);
-app.use("/api", userRouter);
+app.use("/", authRouter);
+app.use("/", profileRouter);
+app.use("/", requestRouter);
+app.use("/", userRouter);
 
 // Optional: simple health check route
-app.get("/api", (req, res) => {
+app.get("/", (req, res) => {
   res.send("API is up and running!");
 });
 
