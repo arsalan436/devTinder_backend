@@ -13,8 +13,9 @@ const USER_SAFE_DATA = [
   "skills",
   "about",
 ];
+// local should be without /api
 
-userRouter.get("/api/user/request/recieved", userAuth, async (req, res) => {
+userRouter.get("/user/request/recieved", userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
 
@@ -32,7 +33,7 @@ userRouter.get("/api/user/request/recieved", userAuth, async (req, res) => {
   }
 });
 
-userRouter.get("/api/user/connections", userAuth, async (req, res) => {
+userRouter.get("/user/connections", userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
 
@@ -60,7 +61,7 @@ userRouter.get("/api/user/connections", userAuth, async (req, res) => {
   }
 });
 
-userRouter.get("/api/user/feed", userAuth, async (req, res) => {
+userRouter.get("/user/feed", userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
 
@@ -91,5 +92,21 @@ userRouter.get("/api/user/feed", userAuth, async (req, res) => {
     res.status(400).send("ERROR: " + err.message);
   }
 });
+userRouter.get("/user/:userId",userAuth, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = await User.findById(userId).select(USER_SAFE_DATA); // exclude password
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
+    }
+
+    res.status(200).json({ data: user });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Server error!" });
+  }
+});
+
 
 module.exports = userRouter;

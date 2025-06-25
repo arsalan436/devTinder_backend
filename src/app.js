@@ -4,6 +4,7 @@ require("./config/database");
 const connectDB = require("./config/database");
 const cookieparser = require("cookie-parser");
 const cors = require("cors");
+const http = require("http");
 // ses things
 
 
@@ -13,6 +14,8 @@ const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
+const initializeSocket = require("./utils/socket");
+const chatRouter = require("./routes/Chat")
 
 // CORS setup
 app.use(cors({
@@ -28,6 +31,10 @@ app.use("/api", authRouter);
 app.use("/api", profileRouter);
 app.use("/api", requestRouter);
 app.use("/api", userRouter);
+app.use("/api", chatRouter);
+
+const server  = http.createServer(app);
+initializeSocket(server);
 
 // Optional: simple health check route
 app.get("/api", (req, res) => {
@@ -38,10 +45,12 @@ connectDB()
   .then(() => {
     console.log("connected to the database successfully");
 
-    app.listen(3000, () => {
+    server.listen(3000, () => {
       console.log("server is successfully listening on port:3000");
     });
   })
   .catch((err) => {
-    console.error("database is not connected");
+    if (process.env.NODE_ENV !== "production") {
+  console.error("database is not connected", err.message);
+}
   });

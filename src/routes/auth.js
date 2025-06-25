@@ -3,8 +3,8 @@ const authRouter = express.Router();
 const{validateSignUpData} = require("../utils/validation")
 const User = require("../models/user");
 const bcrypt = require("bcrypt")
-
-authRouter.post("/api/signup", async (req, res) => {
+// local should be without /api 
+authRouter.post("/signup", async (req, res) => {
   // dynamic to recieve data from end user (here postman)
 
   try {
@@ -35,7 +35,7 @@ authRouter.post("/api/signup", async (req, res) => {
   }
 });
 
-authRouter.post("/api/login", async (req, res) => {
+authRouter.post("/login", async (req, res) => {
   try {
     const { emailId, password} = req.body;
     const user = await User.findOne({ emailId: emailId });
@@ -57,7 +57,7 @@ authRouter.post("/api/login", async (req, res) => {
   }
 });
 
-authRouter.post("/api/logout", async (req,res)=>{
+authRouter.post("/logout", async (req,res)=>{
     res.cookie("token", null, {maxAge:0})
     res.send("LogOut successfully!");
 })

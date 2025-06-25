@@ -45,7 +45,7 @@ const userSchema = new mongoose.Schema(
     },
     photoUrl: {
       type: String,
-      default: "123.png",
+      default: "https://w7.pngwing.com/pngs/247/564/png-transparent-computer-icons-user-profile-user-avatar-blue-heroes-electric-blue.png",
       maxlength: 500,
       validate(value) {
         if (!validator.isURL(value)) {
@@ -77,7 +77,7 @@ const userSchema = new mongoose.Schema(
 userSchema.methods.getJWT = async function(){
   const user = this;
 
-  const token =  jwt.sign({_id:user._id},"DevTinder$790",{expiresIn:"7d"});
+  const token =  jwt.sign({_id:user._id},process.env.jwt_secret_key,{expiresIn:"7d"});
 
   return token;
 }

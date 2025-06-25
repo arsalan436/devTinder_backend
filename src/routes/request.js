@@ -6,9 +6,9 @@ const User = require("../models/user")
 const { SendEmailCommand } = require("@aws-sdk/client-ses");
 const sesClient = require("../utils/ses");
 
+// local should be without /api 
 
-
-requestRouter.post("/api/request/send/:status/:toUserId" ,userAuth,async (req,res)=>{
+requestRouter.post("/request/send/:status/:toUserId" ,userAuth,async (req,res)=>{
 
   try{
     const fromUserId = req.user._id;
@@ -73,16 +73,13 @@ if(status === "interested"){
 }
 
 
-
-  console.log("About to send email via SES");
-console.log("Params:", params);
-
 try {
   const command = new SendEmailCommand(params);
   const response = await sesClient.send(command);
-  console.log("Email sent successfully", response);
 } catch (error) {
-  console.error("Error sending email: ", error);
+  if (process.env.NODE_ENV !== "production") {
+  console.error("Error sending email:", err.message);
+}
 }
 
 
@@ -99,8 +96,7 @@ try {
   
 })
 
-
-requestRouter.post("/api/request/review/:status/:requestId" ,userAuth,async (req,res)=>{
+requestRouter.post("/request/review/:status/:requestId" ,userAuth,async (req,res)=>{
 
   try{
     const {requestId,status} = req.params;

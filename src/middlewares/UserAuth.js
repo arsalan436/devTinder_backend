@@ -9,7 +9,7 @@ const userAuth = async (req,res,next)=>{
         return res.status(401).send("please Login!");
     }
 
-    const decodedObj =  jwt.verify(token,"DevTinder$790");
+    const decodedObj =  jwt.verify(token,process.env.jwt_secret_key);
     const {_id} = decodedObj;
     const user = await User.findById(_id);
     if(!user){
@@ -19,9 +19,13 @@ const userAuth = async (req,res,next)=>{
     req.user = user;
     next();
     }
-    catch(err){
-        res.status(400).send("ERROR: "+err.message)
-    }
+    catch (err) {
+        if (process.env.NODE_ENV !== "production") {
+            console.error("Auth error: ", err.message);
+        }
+    res.clearCookie("token");
+    res.status(401).send("Session expired or invalid token. Please login again.");
+  }
 
 }
 
