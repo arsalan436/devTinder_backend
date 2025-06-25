@@ -15,7 +15,7 @@ const USER_SAFE_DATA = [
 ];
 // local should be without /api
 
-userRouter.get("/api/user/request/recieved", userAuth, async (req, res) => {
+userRouter.get("/user/request/recieved", userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
 
@@ -33,7 +33,7 @@ userRouter.get("/api/user/request/recieved", userAuth, async (req, res) => {
   }
 });
 
-userRouter.get("/api/user/connections", userAuth, async (req, res) => {
+userRouter.get("/user/connections", userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
 
@@ -61,7 +61,7 @@ userRouter.get("/api/user/connections", userAuth, async (req, res) => {
   }
 });
 
-userRouter.get("/api/user/feed", userAuth, async (req, res) => {
+userRouter.get("/user/feed", userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
 
@@ -92,7 +92,7 @@ userRouter.get("/api/user/feed", userAuth, async (req, res) => {
     res.status(400).send("ERROR: " + err.message);
   }
 });
-userRouter.get("/api/user/:userId",userAuth, async (req, res) => {
+userRouter.get("/user/:userId",userAuth, async (req, res) => {
   try {
     const { userId } = req.params;
     const user = await User.findById(userId).select(USER_SAFE_DATA); // exclude password

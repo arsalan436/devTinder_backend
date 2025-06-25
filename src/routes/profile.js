@@ -7,7 +7,7 @@ const { isStrongPassword } = require("validator");
 const bcrypt = require("bcrypt");
 
 // local should be without /api 
-profileRouter.get("/api/profile/view", userAuth, async (req, res) => {
+profileRouter.get("/profile/view", userAuth, async (req, res) => {
   try {
     const user = req.user;
     res.send(user);
@@ -16,7 +16,7 @@ profileRouter.get("/api/profile/view", userAuth, async (req, res) => {
   }
 });
 
-profileRouter.patch("/api/profile/edit", userAuth, async (req, res) => {
+profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
   try {
     if (!validateEditProfileData(req)) {
       throw new Error("Invalid edit request!");
@@ -43,7 +43,7 @@ profileRouter.patch("/api/profile/edit", userAuth, async (req, res) => {
   }
 });
 
-profileRouter.patch("/api/profile/changepassword", userAuth, async (req, res) => {
+profileRouter.patch("/profile/changepassword", userAuth, async (req, res) => {
   try {
     const newPassword = req.body.password;
 
