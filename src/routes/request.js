@@ -8,7 +8,7 @@ const sesClient = require("../utils/ses");
 
 // local should be without /api 
 
-requestRouter.post("/request/send/:status/:toUserId", {}, {withCredentials: true} ,userAuth,async (req,res)=>{
+requestRouter.post("/request/send/:status/:toUserId",userAuth,async (req,res)=>{
 
   try{
     console.log("req.params:", req.params);
