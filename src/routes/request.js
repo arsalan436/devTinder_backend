@@ -78,7 +78,7 @@ if(status === "interested"){
 try {
   const command = new SendEmailCommand(params);
   const response = await sesClient.send(command);
-} catch (error) {
+} catch (err) {
   if (process.env.NODE_ENV !== "production") {
   console.error("Error sending email:", err.message);
 }
