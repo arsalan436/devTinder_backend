@@ -5,7 +5,7 @@ const Chat = require("../models/Chats");
 const { model } = require("mongoose");
 
 
-chatRouter.get("/chat/:userId/:targetUserId",userAuth,async(req,res)=>{
+chatRouter.get("/api/chat/:userId/:targetUserId",userAuth,async(req,res)=>{
 
     try{
             const {userId,targetUserId} = req.params;
