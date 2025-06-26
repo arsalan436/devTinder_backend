@@ -5,6 +5,7 @@ const connectDB = require("./config/database");
 const cookieparser = require("cookie-parser");
 const cors = require("cors");
 const http = require("http");
+const PORT = process.env.PORT || 3000;
 // ses things
 
 
@@ -45,7 +46,7 @@ connectDB()
   .then(() => {
     console.log("connected to the database successfully");
 
-    server.listen(3000, () => {
+    server.listen(PORT, () => {
       console.log("server is successfully listening on port:3000");
     });
   })
