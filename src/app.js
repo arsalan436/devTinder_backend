@@ -47,7 +47,7 @@ connectDB()
     console.log("connected to the database successfully");
 
     // a big change here used app instead of server so take care
-    app.listen(port, () => {
+    app.listen(port,'0.0.0.0', () => {
       console.log(`server is successfully listening on port: ${port}`);
     });
   })
