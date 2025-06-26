@@ -1,22 +1,19 @@
 const express = require("express");
 const app = express();
-require("./config/database");
+require("dotenv").config();
 const connectDB = require("./config/database");
 const cookieparser = require("cookie-parser");
 const cors = require("cors");
-const http = require("http");
+const initializeSocket = require("./utils/socket");
+
 const port = process.env.PORT;
-// ses things
-
-
 
 // Routers
 const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
-const initializeSocket = require("./utils/socket");
-const chatRouter = require("./routes/Chat")
+const chatRouter = require("./routes/Chat");
 
 // CORS setup
 app.use(cors({
@@ -34,25 +31,25 @@ app.use("/api", requestRouter);
 app.use("/api", userRouter);
 app.use("/api", chatRouter);
 
-const server  = http.createServer(app);
-initializeSocket(server);
-
-// Optional: simple health check route
+// Health check
 app.get("/api", (req, res) => {
   res.send("API is up and running!");
 });
 
+// Connect DB and start server
 connectDB()
   .then(() => {
     console.log("connected to the database successfully");
 
-    // a big change here used app instead of server so take care
-    app.listen(port,'0.0.0.0', () => {
+    const server = app.listen(port, '0.0.0.0', () => {
       console.log(`server is successfully listening on port: ${port}`);
     });
+
+    // Attach socket to this same server
+    initializeSocket(server);
   })
   .catch((err) => {
     if (process.env.NODE_ENV !== "production") {
-  console.error("database is not connected", err.message);
-}
+      console.error("database is not connected", err.message);
+    }
   });
