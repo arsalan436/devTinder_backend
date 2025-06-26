@@ -46,7 +46,7 @@ connectDB()
   .then(() => {
     console.log("connected to the database successfully");
 
-    server.listen(PORT, () => {
+    server.listen(PORT,'0.0.0.0', () => {
       console.log(`server is successfully listening on port: ${PORT}`);
     });
   })
