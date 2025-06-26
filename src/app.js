@@ -5,7 +5,7 @@ const connectDB = require("./config/database");
 const cookieparser = require("cookie-parser");
 const cors = require("cors");
 const http = require("http");
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 // ses things
 
 
